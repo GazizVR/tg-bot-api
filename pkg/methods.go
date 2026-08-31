@@ -16,6 +16,7 @@ const (
 	editReplyMarkupMethod = "editMessageReplyMarkup"
 	editTextMethod        = "editMessageText"
 	answerQueryMethod     = "answerCallbackQuery"
+	getFileMethod         = "getFile"
 )
 
 func (c *Client) getUpdates(
@@ -200,4 +201,32 @@ func (c *Client) AnswerCallbackQuery(
 	}
 
 	return response, nil
+}
+
+func (c *Client) GetFile(
+	id string,
+) (*FileResponse, error) {
+	params := map[string]string{
+		"file_id": id,
+	}
+	var response FileResponse
+	body, err := internal.GetRequest(
+		c.BaseURL,
+		c.urlPath(getFileMethod),
+		params,
+		response,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	resp := CommonResponse{Ok: response.Ok}
+	if err := CheckError(
+		resp,
+		body,
+		getUpdatesMethod,
+	); err != nil {
+		return nil, err
+	}
+	return &response, nil
 }

@@ -21,6 +21,11 @@ type MessageResponse struct {
 	Result Message `json:"result"`
 }
 
+type FileResponse struct {
+	CommonResponse
+	Result File `json:"result"`
+}
+
 type ErrorResponse struct {
 	CommonResponse
 	Code        uint16 `json:"error_code"`
