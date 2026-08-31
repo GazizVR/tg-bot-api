@@ -53,3 +53,7 @@ type InlineButton struct {
 	Text string `json:"text"`
 	Data string `json:"callback_data"`
 }
+
+type File struct {
+	FilePath string `json:"file_path"`
+}
