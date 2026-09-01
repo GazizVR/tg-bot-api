@@ -2,6 +2,11 @@ package pkg
 
 import (
 	"fmt"
+	"io"
+	"net/http"
+	"os"
+	"path/filepath"
+	"strings"
 
 	"github.com/gazizvr/tg-bot-api/internal"
 )
@@ -70,7 +75,7 @@ func (c *Client) AnswerCallbackQuery(
 	return response, nil
 }
 
-func (c *Client) GetFile(
+func (c *Client) getFile(
 	id string,
 ) (*FileResponse, error) {
 	params := map[string]string{
@@ -96,4 +101,44 @@ func (c *Client) GetFile(
 		return nil, err
 	}
 	return &response, nil
+}
+
+func (c *Client) DownloadFile(
+	id string,
+	dirPath string,
+) (*string, error) {
+	fileResp, err := c.getFile(id)
+	if err != nil {
+		return nil, err
+	}
+	filePath := fileResp.Result.Path
+	if len(strings.TrimSpace(filePath)) < 1 {
+		return nil, ErrFileNotFound
+	}
+	if string(filePath[0]) != "/" {
+		fileName := fmt.Sprint(
+			fileResp.Result.UniqueId,
+			filePath[strings.LastIndex(filePath, "."):],
+		)
+		newPath := filepath.Join(dirPath, fileName)
+		urlPath := fmt.Sprint("file", "/", c.urlPath(filePath))
+		resp, err := http.Get(urlPath)
+		if err != nil {
+			return nil, err
+		}
+		defer resp.Body.Close()
+		if resp.StatusCode != http.StatusOK {
+			return nil, ErrFileNotFound
+		}
+		newFile, err := os.Create(newPath)
+		if err != nil {
+			return nil, err
+		}
+		defer newFile.Close()
+		if _, err := io.Copy(newFile, resp.Body); err != nil {
+			return nil, err
+		}
+		return &newPath, nil
+	}
+	return &filePath, nil
 }
