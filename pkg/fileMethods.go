@@ -23,7 +23,7 @@ func (c *Client) getFile(
 		c.BaseURL,
 		c.urlPath(getFileMethod),
 		params,
-		response,
+		&response,
 	)
 	if err != nil {
 		return nil, err
