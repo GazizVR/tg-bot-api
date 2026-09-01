@@ -76,16 +76,11 @@ func (c *Client) DeleteMessage(
 
 func (c *Client) SendDocument(
 	chatId int64,
-	mediaType string,
 	media os.File,
 	msgIdToReply *int64,
 ) (*MessageResponse, error) {
 	params := map[string]string{
 		"chat_id": fmt.Sprintf("%d", chatId),
-		"document": fmt.Sprintf(`{
-			"type": "%s",
-			"media": "attach://%s"
-		}`, mediaType, mediaType),
 	}
 	if msgIdToReply != nil {
 		params["reply_parameters"] = fmt.Sprintf(
@@ -97,7 +92,7 @@ func (c *Client) SendDocument(
 	response, err := c.mediaRequest(
 		params,
 		sendDocumentMethod,
-		map[string]os.File{mediaType: media},
+		map[string]os.File{"document": media},
 	)
 	if err != nil {
 		return nil, err
