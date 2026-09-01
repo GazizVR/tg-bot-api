@@ -82,7 +82,7 @@ func (c *Client) SendDocument(
 ) (*MessageResponse, error) {
 	params := map[string]string{
 		"chat_id": fmt.Sprintf("%d", chatId),
-		"media": fmt.Sprintf(`{
+		"document": fmt.Sprintf(`{
 			"type": "%s",
 			"media": "attach://%s"
 		}`, mediaType, mediaType),
