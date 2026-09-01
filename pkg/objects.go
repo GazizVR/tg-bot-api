@@ -55,6 +55,6 @@ type InlineButton struct {
 }
 
 type File struct {
-	UniqueId string  `json:"file_unique_id"`
-	Path     *string `json:"file_path,omitempty"`
+	UniqueId string `json:"file_unique_id"`
+	Path     string `json:"file_path,omitempty"`
 }

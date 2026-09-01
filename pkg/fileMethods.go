@@ -81,7 +81,7 @@ func (c *Client) DownloadFile(
 	if err != nil {
 		return nil, err
 	}
-	filePath := *fileResp.Result.Path
+	filePath := fileResp.Result.Path
 	if len(strings.TrimSpace(filePath)) < 1 {
 		return nil, ErrFileNotFound
 	}
