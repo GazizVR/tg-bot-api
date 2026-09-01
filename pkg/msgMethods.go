@@ -4,11 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 )
 
 const (
 	sendMessageMethod   = "sendMessage"
 	deleteMessageMethod = "deleteMessage"
+	sendDocumentMethod  = "sendDocument"
 )
 
 func (c *Client) SendMessage(
@@ -66,6 +68,38 @@ func (c *Client) DeleteMessage(
 		body,
 		getUpdatesMethod,
 	); err != nil {
+		return nil, err
+	}
+
+	return response, nil
+}
+
+func (c *Client) SendDocument(
+	chatId int64,
+	mediaType string,
+	media os.File,
+	msgIdToReply *int64,
+) (*MessageResponse, error) {
+	params := map[string]string{
+		"chat_id": fmt.Sprintf("%d", chatId),
+		"media": fmt.Sprintf(`{
+			"type": "%s",
+			"media": "attach://%s"
+		}`, mediaType, mediaType),
+	}
+	if msgIdToReply != nil {
+		params["reply_parameters"] = fmt.Sprintf(
+			`{"message_id": %d}`,
+			*msgIdToReply,
+		)
+	}
+
+	response, err := c.mediaRequest(
+		params,
+		sendDocumentMethod,
+		map[string]os.File{mediaType: media},
+	)
+	if err != nil {
 		return nil, err
 	}
 
