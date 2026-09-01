@@ -43,6 +43,9 @@ func (c *Client) getFile(
 func (c *Client) downloadFile(
 	uniqueId, path, dirPath string,
 ) (*string, error) {
+	if err := os.MkdirAll(dirPath, 0755); err != nil {
+		return nil, err
+	}
 	fileName := fmt.Sprint(uniqueId, filepath.Ext(path))
 	filePath := filepath.Join(dirPath, fileName)
 
