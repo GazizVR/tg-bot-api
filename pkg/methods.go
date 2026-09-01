@@ -7,13 +7,9 @@ import (
 )
 
 const (
-	getUpdatesMethod      = "getUpdates"
-	sendMessageMethod     = "sendMessage"
-	editMediaMethod       = "editMessageMedia"
-	editReplyMarkupMethod = "editMessageReplyMarkup"
-	editTextMethod        = "editMessageText"
-	answerQueryMethod     = "answerCallbackQuery"
-	getFileMethod         = "getFile"
+	getUpdatesMethod  = "getUpdates"
+	answerQueryMethod = "answerCallbackQuery"
+	getFileMethod     = "getFile"
 )
 
 func (c *Client) getUpdates(

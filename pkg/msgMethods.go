@@ -7,6 +7,14 @@ import (
 	"os"
 )
 
+const (
+	sendMessageMethod     = "sendMessage"
+	deleteMessageMethod   = "deleteMessage"
+	editMediaMethod       = "editMessageMedia"
+	editReplyMarkupMethod = "editMessageReplyMarkup"
+	editTextMethod        = "editMessageText"
+)
+
 func (c *Client) SendMessage(
 	chatId int64,
 	text string,
@@ -37,6 +45,31 @@ func (c *Client) SendMessage(
 		sendMessageMethod,
 	)
 	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
+}
+
+func (c *Client) DeleteMessage(
+	chatId int64,
+	messageId int64,
+) (*CommonResponse, error) {
+	params := map[string]string{
+		"chat_id":    fmt.Sprintf("%d", chatId),
+		"message_id": fmt.Sprintf("%d", messageId),
+	}
+	response, body, err := c.commonRequest(params, deleteMessageMethod)
+	if err != nil {
+		return nil, err
+	}
+
+	resp := CommonResponse{Ok: response.Ok}
+	if err := CheckError(
+		resp,
+		body,
+		getUpdatesMethod,
+	); err != nil {
 		return nil, err
 	}
 
