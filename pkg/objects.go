@@ -22,7 +22,11 @@ type Message struct {
 	Text        string          `json:"text"`
 	LinkPreview *LinkPreviewOps `json:"link_preview_options"`
 	Chat        Chat            `json:"chat"`
-	Video       *Video          `json:"video"`
+	Video       *Media          `json:"video"`
+	Audio       *Media          `json:"audio"`
+	Voice       *Media          `json:"voice"`
+	VideoNote   *Media          `json:"video_note"`
+	Document    *Document       `json:"document"`
 }
 
 type LinkPreviewOps struct {
@@ -33,8 +37,13 @@ type Chat struct {
 	Id int64 `json:"id"`
 }
 
-type Video struct {
+type Media struct {
 	Id string `json:"file_id"`
+}
+
+type Document struct {
+	Media
+	MimeType string `json:"mime_type,omitempty"`
 }
 
 type InlineMarkup struct {
