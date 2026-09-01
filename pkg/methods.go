@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
@@ -121,8 +122,15 @@ func (c *Client) DownloadFile(
 			filePath[strings.LastIndex(filePath, "."):],
 		)
 		newPath := filepath.Join(dirPath, fileName)
-		urlPath := fmt.Sprint("file", "/", c.urlPath(filePath))
-		resp, err := http.Get(urlPath)
+
+		u, err := url.Parse(c.BaseURL)
+		if err != nil {
+			return nil, err
+		}
+		u.Path = fmt.Sprint("file", "/", c.urlPath(filePath))
+		urlStr := u.String()
+
+		resp, err := http.Get(urlStr)
 		if err != nil {
 			return nil, err
 		}
@@ -130,6 +138,7 @@ func (c *Client) DownloadFile(
 		if resp.StatusCode != http.StatusOK {
 			return nil, ErrFileNotFound
 		}
+
 		newFile, err := os.Create(newPath)
 		if err != nil {
 			return nil, err
