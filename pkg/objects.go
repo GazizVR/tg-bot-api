@@ -21,6 +21,7 @@ type Message struct {
 	Id          int64           `json:"message_id"`
 	Text        string          `json:"text"`
 	LinkPreview *LinkPreviewOps `json:"link_preview_options"`
+	ReplyTo     *Message        `json:"reply_to_message"`
 	Chat        Chat            `json:"chat"`
 	Video       *Media          `json:"video"`
 	Audio       *Media          `json:"audio"`
