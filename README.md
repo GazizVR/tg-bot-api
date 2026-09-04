@@ -202,6 +202,4 @@ _, err = client.EditMessageReplyMarkup(chatId, messageId, *newMarkup)
 
 ## 📄 License
 
-This project is licensed under the MIT License — see the [LICENSE](https://www.google.com/search?q=LICENSE) file for details.
-
-**Author:** Gaziz (`@gazizvr`)
+This project is licensed under the MIT License — see the [LICENSE](https://github.com/GazizVR/tg-bot-api/blob/main/LICENSE) file for details.
