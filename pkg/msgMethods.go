@@ -16,7 +16,7 @@ const (
 func (c *Client) SendMessage(
 	chatId int64,
 	text string,
-	markup *InlineMarkup,
+	markup *InlineKeyboardMarkup,
 	msgIdToReply *int64,
 ) (*MessageResponse, error) {
 	params := map[string]string{

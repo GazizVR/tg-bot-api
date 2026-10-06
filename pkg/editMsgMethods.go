@@ -18,7 +18,7 @@ func (c *Client) EditMessageMedia(
 	messageId int64,
 	mediaType string,
 	media os.File,
-	markup *InlineMarkup,
+	markup *InlineKeyboardMarkup,
 ) (*MessageResponse, error) {
 	params := map[string]string{
 		"chat_id":    fmt.Sprintf("%d", chatId),
@@ -52,7 +52,7 @@ func (c *Client) EditMessageMedia(
 func (c *Client) EditMessageReplyMarkup(
 	chatId int64,
 	messageId int64,
-	markup InlineMarkup,
+	markup InlineKeyboardMarkup,
 ) (*MessageResponse, error) {
 	jsonMarkup, err := json.Marshal(markup)
 	if err != nil {
@@ -80,7 +80,7 @@ func (c *Client) EditMessageText(
 	chatId int64,
 	messageId int64,
 	text string,
-	markup *InlineMarkup,
+	markup *InlineKeyboardMarkup,
 ) (*MessageResponse, error) {
 	params := map[string]string{
 		"message_id": fmt.Sprintf("%d", messageId),

@@ -1,6 +1,6 @@
 package pkg
 
-type InlineButton struct {
+type InlineKeyboardButton struct {
 	Text     string          `json:"text"`
 	Data     *string         `json:"callback_data,omitempty"`
 	CopyText *CopyTextButton `json:"copy_text,omitempty"`
@@ -10,41 +10,41 @@ type CopyTextButton struct {
 	Text string `json:"text"`
 }
 
-type InlineMarkup struct {
-	Keyboard [][]InlineButton `json:"inline_keyboard"`
+type InlineKeyboardMarkup struct {
+	Keyboard [][]InlineKeyboardButton `json:"inline_keyboard"`
 }
 
 func NewInlineMarkup(
-	rows ...[]InlineButton,
-) *InlineMarkup {
-	return &InlineMarkup{
+	rows ...[]InlineKeyboardButton,
+) *InlineKeyboardMarkup {
+	return &InlineKeyboardMarkup{
 		Keyboard: rows,
 	}
 }
 
-type ReplyButton struct {
+type ReplyKeyboardButton struct {
 	Text           string `json:"text"`
 	RequestContact *bool  `json:"request_contact,omitempty"`
 }
 
-type ReplyMarkup struct {
-	Keyboard       [][]ReplyButton `json:"keyboard"`
-	ResizeKeyboard *bool           `json:"resize_keyboard,omitempty"`
+type ReplyKeyboardMarkup struct {
+	Keyboard       [][]ReplyKeyboardButton `json:"keyboard"`
+	ResizeKeyboard *bool                   `json:"resize_keyboard,omitempty"`
 }
 
-type ReplyMarkupOption func(*ReplyMarkup)
+type ReplyMarkupOption func(*ReplyKeyboardMarkup)
 
 func WithRequestContact(resizeKeyboard bool) ReplyMarkupOption {
-	return func(rm *ReplyMarkup) {
+	return func(rm *ReplyKeyboardMarkup) {
 		rm.ResizeKeyboard = &resizeKeyboard
 	}
 }
 
 func NewReplyMarkup(
-	rows [][]ReplyButton,
+	rows [][]ReplyKeyboardButton,
 	opts ...ReplyMarkupOption,
-) *ReplyMarkup {
-	replyMarkup := &ReplyMarkup{
+) *ReplyKeyboardMarkup {
+	replyMarkup := &ReplyKeyboardMarkup{
 		Keyboard: rows,
 	}
 	for _, opt := range opts {
