@@ -21,3 +21,34 @@ func NewInlineMarkup(
 		Keyboard: rows,
 	}
 }
+
+type ReplyButton struct {
+	Text           string `json:"text"`
+	RequestContact *bool  `json:"request_contact,omitempty"`
+}
+
+type ReplyMarkup struct {
+	Keyboard       [][]ReplyButton `json:"keyboard"`
+	ResizeKeyboard *bool           `json:"resize_keyboard,omitempty"`
+}
+
+type ReplyMarkupOption func(*ReplyMarkup)
+
+func WithRequestContact(resizeKeyboard bool) ReplyMarkupOption {
+	return func(rm *ReplyMarkup) {
+		rm.ResizeKeyboard = &resizeKeyboard
+	}
+}
+
+func NewReplyMarkup(
+	rows [][]ReplyButton,
+	opts ...ReplyMarkupOption,
+) *ReplyMarkup {
+	replyMarkup := &ReplyMarkup{
+		Keyboard: rows,
+	}
+	for _, opt := range opts {
+		opt(replyMarkup)
+	}
+	return replyMarkup
+}
