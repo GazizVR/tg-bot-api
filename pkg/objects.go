@@ -28,6 +28,7 @@ type Message struct {
 	Voice       *Media          `json:"voice"`
 	VideoNote   *Media          `json:"video_note"`
 	Document    *Document       `json:"document"`
+	Contact     *Contact        `json:"contact"`
 }
 
 type LinkPreviewOps struct {
@@ -67,4 +68,9 @@ type InlineButton struct {
 type File struct {
 	UniqueId string `json:"file_unique_id"`
 	Path     string `json:"file_path,omitempty"`
+}
+
+type Contact struct {
+	PhoneNumber string `json:"phone_number"`
+	UserId      int64  `json:"user_id"`
 }
