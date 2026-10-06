@@ -52,3 +52,7 @@ func NewReplyMarkup(
 	}
 	return replyMarkup
 }
+
+type ReplyKeyboardRemove struct {
+	RemoveKeyboard bool `json:"remove_keyboard"`
+}
